@@ -33,7 +33,7 @@ public class MergeSort {
 
         while (leftIndex < leftArr.length && rightIndex < rightArr.length)
         {
-            if (leftArr[leftIndex].compareTo(rightArr[rightIndex]) < 0)
+            if (leftArr[leftIndex].compareTo(rightArr[rightIndex]) <= 0)
             {
                 arr[finalIndex] = leftArr[leftIndex];
                 leftIndex++;

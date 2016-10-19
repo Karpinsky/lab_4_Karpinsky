@@ -5,22 +5,19 @@ public class Bouquet {
 
     public static void main(String[] args)
     {
-        Bouquet bouquetExample = new Bouquet(new Flower(10, 5, 342));
-        bouquetExample.addFlower(new Flower(1, 2, 1512));
-        bouquetExample.addFlower(new Flower(1, 6, 52));
-        bouquetExample.addFlower(new Flower(1, 4, 583));
-        bouquetExample.addFlower(new Flower(2, 3, 512));
+        Bouquet bouquetExample = new Bouquet(new Flower(10, "Tinky Winky", new FlowerSpec(FlowerSpec.FlowerColor.MAGENTA, 12, 42)));
+        bouquetExample.addFlower(new Flower(5, "Dipsy", new FlowerSpec(FlowerSpec.FlowerColor.GREEN, 56, 7)));
+        bouquetExample.addFlower(new Flower(5, "Dipsy2", new FlowerSpec(FlowerSpec.FlowerColor.GREEN, 56, 7)));
+        bouquetExample.addFlower(new Flower(7, "Lala", new FlowerSpec(FlowerSpec.FlowerColor.YELLOW, 42, 3)));
+        bouquetExample.addFlower(new Flower(2, "Po", new FlowerSpec(FlowerSpec.FlowerColor.RED, 511, 32)));
         bouquetExample.deleteFlower();
-        bouquetExample.deleteFlower();
-        bouquetExample.addFlower(new Flower(2, 1234, 53214));
-        bouquetExample.addFlower(new Flower(10, 45214, 123));
-        bouquetExample.deleteFlower(1);
         bouquetExample.deleteFlower();
         bouquetExample.sortBouquetByValueBasedPrice();
 
         System.out.println(bouquetExample.findFlowerInScopeOfStemLength(49, 340));
 
         System.out.println(bouquetExample);
+        System.out.println(Arrays.toString(bouquetExample.search(new FlowerSpec(FlowerSpec.FlowerColor.GREEN, 56, 7))));
     }
 
     private Flower[] allFlowers;
@@ -106,7 +103,7 @@ public class Bouquet {
     {
         for (int i = 0; i < this.Length(); i++)
         {
-            float currentFlowerStemLength = this.allFlowers[i].GetStemLength();
+            float currentFlowerStemLength = this.allFlowers[i].getFlowerSpec().getStemLength();
             if (currentFlowerStemLength > minLength && currentFlowerStemLength < maxLength)
             {
                 return this.allFlowers[i];
@@ -118,7 +115,31 @@ public class Bouquet {
 
     public void sortBouquetByValueBasedPrice()
     {
-        MergeSort.SortMerge(this.allFlowers);
+        Flower[] newArray = new Flower[this.lastFreeElementIndex];
+        System.arraycopy(this.allFlowers, 0, newArray, 0, this.lastFreeElementIndex);
+        MergeSort.SortMerge(newArray);
+        System.arraycopy(newArray, 0, this.allFlowers, 0, this.lastFreeElementIndex);
+    }
+
+    public Flower[] search(FlowerSpec spec)
+    {
+        int[] flowerIndices = new int[this.lastFreeElementIndex];
+        int flowerIndexCount = 0;
+        for (int i = 0; i < this.lastFreeElementIndex; ++i)
+        {
+            if (this.allFlowers[i].getFlowerSpec().matches(spec))
+            {
+                flowerIndices[flowerIndexCount] = i;
+                flowerIndexCount += 1;
+            }
+        }
+
+        Flower[] newArray = new Flower[flowerIndexCount];
+        for (int i = 0; i < flowerIndexCount; ++i)
+        {
+            newArray[i] = this.allFlowers[flowerIndices[i]];
+        }
+        return newArray;
     }
 
     public String toString()

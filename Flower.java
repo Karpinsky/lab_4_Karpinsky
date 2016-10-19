@@ -2,25 +2,24 @@ package com.karpinsky.csucu.Lab_4_git;
 
 public class Flower extends OrganicObject implements Comparable<Flower>{
 
-    private int freshnessLevel;
-    public int GetFreshnessLevel() { return this.freshnessLevel; }
-    public void SetFreshnessLevel(int value) { this.freshnessLevel = value; }
-
-    private float stemLength;
-    public float GetStemLength() { return this.stemLength; }
-    public void SetStemLength(float value) { this.stemLength = value; }
+    private String name;
+    private FlowerSpec flowerSpec;
 
     public String toString()
     {
-        return "Freshness level: " + Integer.toString(freshnessLevel) + " Stem Length: " + Float.toString(stemLength) + " Price: " + Float.toString(valueBasedPrice);
+        return "Name: " + this.name;
     }
 
-    public Flower(float valueBasedPrice_, int freshnessLevel_, float stemLength_)
+    public Flower(float valueBasedPrice_, String name_, FlowerSpec flowerSpec_)
     {
         super("Plantae", valueBasedPrice_);
-        this.freshnessLevel = freshnessLevel_;
-        this.stemLength = stemLength_;
+        this.name = name_;
+        this.flowerSpec = flowerSpec_;
     }
+
+    public String getName() { return this.name; }
+
+    public FlowerSpec getFlowerSpec() { return this.flowerSpec; }
 
     @Override
     public int compareTo(Flower o)
@@ -30,11 +29,11 @@ public class Flower extends OrganicObject implements Comparable<Flower>{
             return -1;
         }
 
-        if (valueBasedPrice < o.GetValueBasedPrice())
+        if (this.valueBasedPrice < o.GetValueBasedPrice())
         {
             return -1;
         }
-        else if (valueBasedPrice > o.GetValueBasedPrice())
+        else if (this.valueBasedPrice > o.GetValueBasedPrice())
         {
             return 1;
         }
